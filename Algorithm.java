@@ -1,5 +1,6 @@
 public class Algorithm {
 
+    // -----------------------------MERGE SORT-----------------------------
     /**
      * Given a list of n numbers, the Selection Problem is to find the xth smallest
      * element in the list.
@@ -71,7 +72,9 @@ public class Algorithm {
             mergeSortSplit(left, middle, right, arr);
         }
     }
+    // -----------------------------END MERGE SORT-----------------------------
 
+    // -----------------------------QUICK SORT-----------------------------
     /**
      * This algorithm takes an element as a pivot and places all values smaller than
      * it to the left and greater values to the right
@@ -80,7 +83,43 @@ public class Algorithm {
      * @param low
      * @param high
      */
-    public void quickSortIterative(int arr[], int low, int high) {
+    public int quickSortPartition(int arr[], int low, int high) {
+        int pivot = arr[high];
+        int index = (low - 1);
 
+        for (int i = low; i <= high - 1; i++) {
+            // if the current element is <= the pivot, swap arr[index] & arr[i]
+            if (arr[i] <= pivot) {
+                index++;
+                // the swap
+                int temp = arr[index];
+                arr[index] = arr[i];
+                arr[i] = temp;
+            }
+        }
+
+        int tempArray = arr[index + 1];
+        arr[index + 1] = arr[high];
+        arr[high] = tempArray;
+
+        return index + 1;
     }
+
+    /**
+     * Main algorithm that implements the quickSortPartition algorithm...
+     * 
+     * @param arr  the array that will be sorted
+     * @param low  beginnging of the array that will be the starting index
+     * @param high end of the array that will be the last index
+     */
+    public void quickSort(int arr[], int low, int high) {
+        if (low < high) {
+            int partitioningIndex = quickSortPartition(arr, low, high);
+
+            quickSort(arr, low, partitioningIndex - 1);
+            quickSort(arr, partitioningIndex + 1, high);
+        }
+    }
+    // -----------------------------END QUICK SORT-----------------------------
+
 }
