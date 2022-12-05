@@ -2,18 +2,16 @@ import java.util.*;
 
 public class Algorithm {
     public static void main(String[] args) {
-        int size = 100;
+        int size = 10;
         int sizeBound = 2000;
         long sum = 0;
 
         int arr[] = new int[size];
         fillArray(arr, size, sizeBound);
 
-        int k = 1;
-
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 20; i++) {
             long start = System.nanoTime();
-            int result = mmRule(arr, 0, arr.length - 1, k);
+            int result = mmRule(arr, 0, arr.length - 1, 1);
             long end = System.nanoTime();
             long total = end - start;
             sum += total;
