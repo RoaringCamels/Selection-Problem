@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Algorithm {
 
     // -----------------------------MERGE SORT-----------------------------
@@ -121,5 +123,70 @@ public class Algorithm {
         }
     }
     // -----------------------------END QUICK SORT-----------------------------
+
+    // -----------------------------mm RULE-----------------------------
+    public int mmRule(int arr[], int left, int right, int middle) {
+        if (middle > 0 && middle <= right - left + 1) {
+            int numOfElements = right - left + 1;
+            int numOfGroups = (numOfElements + 6) / 7;
+            int[] median = new int[numOfGroups];
+            int count;
+
+            for (count = 0; count < numOfElements / 7; count++) {
+                median[count] = findMedian(arr, left + count * 7, left + count * 7 + numOfElements % 7);
+                count++;
+            }
+
+            int mm;
+            if (count == 1) {
+                mm = median[count - 1];
+            } else {
+                mm = mmRule(median, 0, count - 1, count / 2);
+            }
+
+            int location = partition(arr, left, right, mm);
+            if (location - left == middle - 1) {
+                return arr[location];
+            } else if (location - left > middle - 1) {
+                return mmRule(arr, left, location - 1, middle);
+            } else {
+                return mmRule(arr, location + 1, right, middle - location + left - 1);
+            }
+        } else {
+            int x = -1;
+            return x;
+        }
+    }
+
+    public int findMedian(int arr[], int left, int right) {
+        Arrays.sort(arr, left, right);
+        return arr[left + (right - left) / 2];
+    }
+
+    public int partition(int arr[], int left, int right, int num) {
+        int count;
+        for (int i = left; i < right; i++) {
+            if (arr[i] == num) {
+                int temp = arr[i];
+                arr[i] = arr[right];
+                arr[right] = temp;
+            }
+        }
+
+        count = left;
+        for (int i = left; i < right; i++) {
+            int temp = arr[count];
+            arr[i] = arr[right];
+            arr[right] = temp;
+            count++;
+        }
+
+        // copy the array onto the temp
+        int temp = arr[count];
+        arr[count] = arr[right];
+        arr[right] = temp;
+        return count;
+    }
+    // -----------------------------END mm RULE-----------------------------
 
 }
