@@ -1,6 +1,27 @@
 import java.util.*;
 
 public class Algorithm {
+    public static void main(String[] args) {
+        int size = 100;
+        int sizeBound = 2000;
+        long sum = 0;
+
+        int arr[] = new int[size];
+        fillArray(arr, size, sizeBound);
+
+        int k = 1;
+
+        for (int i = 0; i < 15; i++) {
+            long start = System.nanoTime();
+            int result = mmRule(arr, 0, arr.length - 1, k);
+            long end = System.nanoTime();
+            long total = end - start;
+            sum += total;
+
+            System.out.println("The " + i + 1 + " run time is: " + total);
+        }
+        System.out.println("\nThe average time is: " + sum / 15 + " nanoseconds");
+    }
 
     // -----------------------------MERGE SORT-----------------------------
     /**
@@ -13,7 +34,7 @@ public class Algorithm {
      * @param z
      * @param arr
      */
-    public void mergeSortSplit(int left, int middle, int right, int arr[]) {
+    public static void mergeSortSplit(int left, int middle, int right, int arr[]) {
         // size of the subarray two be merged
         int size1 = (middle - left) + 1;
         int size2 = (right - middle);
@@ -64,7 +85,7 @@ public class Algorithm {
      * @param left
      * @param right
      */
-    public void mergeSort(int arr[], int left, int right) {
+    public static void mergeSort(int arr[], int left, int right) {
         if (left < right) {
             int middle = left + (right - 1) / 2;
 
@@ -85,7 +106,7 @@ public class Algorithm {
      * @param low
      * @param high
      */
-    public int quickSortPartition(int arr[], int low, int high) {
+    public static int quickSortPartition(int arr[], int low, int high) {
         int pivot = arr[high];
         int index = (low - 1);
 
@@ -114,7 +135,7 @@ public class Algorithm {
      * @param low  beginnging of the array that will be the starting index
      * @param high end of the array that will be the last index
      */
-    public void quickSort(int arr[], int low, int high) {
+    public static void quickSort(int arr[], int low, int high) {
         if (low < high) {
             int partitioningIndex = quickSortPartition(arr, low, high);
 
@@ -125,14 +146,26 @@ public class Algorithm {
     // -----------------------------END QUICK SORT-----------------------------
 
     // -----------------------------mm RULE-----------------------------
-    public int mmRule(int arr[], int left, int right, int middle) {
-        if (middle > 0 && middle <= right - left + 1) {
+    /**
+     * 
+     * @param arr
+     * @param left
+     * @param right
+     * @param middle
+     * @return
+     */
+    public static int mmRule(int arr[], int left, int right, int k) {
+        if (k > 0 && k <= right - left + 1) {
             int numOfElements = right - left + 1;
             int numOfGroups = (numOfElements + 6) / 7;
             int[] median = new int[numOfGroups];
             int count;
 
             for (count = 0; count < numOfElements / 7; count++) {
+                median[count] = findMedian(arr, left + count * 7, left + count * 7 + 7);
+            }
+
+            if (count * 7 < numOfElements) {
                 median[count] = findMedian(arr, left + count * 7, left + count * 7 + numOfElements % 7);
                 count++;
             }
@@ -145,30 +178,46 @@ public class Algorithm {
             }
 
             int location = partition(arr, left, right, mm);
-            if (location - left == middle - 1) {
+            if (location - left == k - 1) {
                 return arr[location];
-            } else if (location - left > middle - 1) {
-                return mmRule(arr, left, location - 1, middle);
+            } else if (location - left > k - 1) {
+                return mmRule(arr, left, location - 1, k);
             } else {
-                return mmRule(arr, location + 1, right, middle - location + left - 1);
+                return mmRule(arr, location + 1, right, k - location + left - 1);
             }
+
         } else {
             int x = -1;
             return x;
         }
     }
 
-    public int findMedian(int arr[], int left, int right) {
+    /**
+     * 
+     * @param arr
+     * @param left
+     * @param right
+     * @return
+     */
+    public static int findMedian(int arr[], int left, int right) {
         Arrays.sort(arr, left, right);
         return arr[left + (right - left) / 2];
     }
 
-    public int partition(int arr[], int left, int right, int num) {
+    /**
+     * 
+     * @param arr
+     * @param left
+     * @param right
+     * @param num
+     * @return
+     */
+    public static int partition(int arr[], int left, int right, int num) {
         int count;
-        for (int i = left; i < right; i++) {
-            if (arr[i] == num) {
-                int temp = arr[i];
-                arr[i] = arr[right];
+        for (count = left; count < right; count++) {
+            if (arr[count] == num) {
+                int temp = arr[count];
+                arr[count] = arr[right];
                 arr[right] = temp;
             }
         }
@@ -188,5 +237,20 @@ public class Algorithm {
         return count;
     }
     // -----------------------------END mm RULE-----------------------------
+
+    /**
+     * 
+     * @param arr
+     * @param num
+     * @param size
+     * @return
+     */
+    public static int[] fillArray(int[] arr, int num, int bound) {
+        Random random = new Random();
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = random.nextInt(bound);
+        }
+        return arr;
+    }
 
 }
