@@ -1,7 +1,7 @@
 public class QuickSortAlgorithm {
     public static void main(String[] args) {
         AlgorithmService alg = new AlgorithmService();
-        int size = 10;
+        int size = 1000000;
         int sizeBound = 2000;
         long sum = 0;
 
@@ -10,7 +10,7 @@ public class QuickSortAlgorithm {
 
         for (int i = 0; i < 20; i++) {
             long start = System.nanoTime();
-            int result = alg.mmRule(arr, 0, arr.length - 1, 1);
+            quickSort(arr, arr.length - 1, 1);
             long end = System.nanoTime();
             long total = end - start;
             sum += total;
@@ -29,7 +29,7 @@ public class QuickSortAlgorithm {
      * @param low
      * @param high
      */
-    public int quickSortPartition(int arr[], int low, int high) {
+    public static int quickSortPartition(int arr[], int low, int high) {
         int pivot = arr[high];
         int index = (low - 1);
 
@@ -59,9 +59,8 @@ public class QuickSortAlgorithm {
      * @param high end of the array that will be the last index
      */
     public static void quickSort(int arr[], int low, int high) {
-        AlgorithmService alg = new AlgorithmService();
         if (low < high) {
-            int partitioningIndex = alg.quickSortPartition(arr, low, high);
+            int partitioningIndex = quickSortPartition(arr, low, high);
 
             quickSort(arr, low, partitioningIndex - 1);
             quickSort(arr, partitioningIndex + 1, high);

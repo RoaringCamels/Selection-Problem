@@ -3,7 +3,7 @@ import java.util.*;
 public class mmRuleAlgorithm {
     public static void main(String[] args) {
         AlgorithmService alg = new AlgorithmService();
-        int size = 10;
+        int size = 100;
         int sizeBound = 2000;
         long sum = 0;
 
