@@ -7,17 +7,23 @@ public class mmRuleAlgorithm {
         int sizeBound = 2000;
         long sum = 0;
 
+        int p1 = size / 4;
+        int p11 = size / 2;
+        int p111 = 3 * size / 4;
+
         int arr[] = new int[size];
         alg.fillArray(arr, size, sizeBound);
 
         for (int i = 0; i < 20; i++) {
             long start = System.nanoTime();
+
             mmRule(arr, 0, arr.length - 1, 1);
+
             long end = System.nanoTime();
             long total = end - start;
             sum += total;
 
-            System.out.println("The " + i + 1 + " run time is: " + total);
+            System.out.println(total);
         }
         System.out.println("\nThe average time is: " + sum / 15 + " nanoseconds");
     }

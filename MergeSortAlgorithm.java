@@ -1,21 +1,27 @@
 public class MergeSortAlgorithm {
     public static void main(String[] args) {
         AlgorithmService alg = new AlgorithmService();
-        int size = 1000;
+        int size = 10;
         int sizeBound = 2000;
         long sum = 0;
+
+        int p1 = size / 4;
+        int p11 = size / 2;
+        int p111 = 3 * size / 4;
 
         int arr[] = new int[size];
         alg.fillArray(arr, size, sizeBound);
 
         for (int i = 0; i < 20; i++) {
             long start = System.nanoTime();
-            mergeSort(arr, arr.length - 1, 1);
+
+            mergeSort(arr, arr.length - 1, 10);
+
             long end = System.nanoTime();
             long total = end - start;
             sum += total;
 
-            System.out.println("The " + i + 1 + " run time is: " + total);
+            System.out.println(total);
         }
         System.out.println("\nThe average time is: " + sum / 15 + " nanoseconds");
     }
@@ -42,7 +48,7 @@ public class MergeSortAlgorithm {
 
         // Copy the arr from the parameter into the tempporary arrays
         for (int i = 0; i < size1; ++i)
-            tempArray1[i] = arr[left + i];
+            tempArray1[i] = arr[left + 1];
         for (int j = 0; j < size2; ++j)
             tempArray2[j] = arr[middle + 1 + j];
 
@@ -82,14 +88,14 @@ public class MergeSortAlgorithm {
      * @param left
      * @param right
      */
-    public static void mergeSort(int arr[], int left, int right) {
-        if (left < right) {
-            int middle = left + (right - 1) / 2;
+    public static void mergeSort(int arr[], int x, int k) {
+        if (x < k) {
+            int middle = x + (k - x) / 2;
 
-            mergeSort(arr, left, right);
-            mergeSort(arr, middle + 1, right);
+            mergeSort(arr, x, middle);
+            mergeSort(arr, middle + 1, k);
 
-            mergeSortSplit(left, middle, right, arr);
+            mergeSortSplit(x, middle, k, arr);
         }
     }
     // -----------------------------END MERGE SORT-----------------------------
