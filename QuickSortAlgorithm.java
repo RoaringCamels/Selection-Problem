@@ -1,21 +1,22 @@
 public class QuickSortAlgorithm {
     public static void main(String[] args) {
         AlgorithmService alg = new AlgorithmService();
-        int size = 10;
+        int size = 50;
         int sizeBound = 2000;
         long sum = 0;
 
-        int p1 = size / 4;
-        int p11 = size / 2;
-        int p111 = 3 * size / 4;
+        int k = size / 4;
+        int k1 = size / 2;
+        int k11 = 3 * size / 4;
 
         int arr[] = new int[size];
-        alg.fillArray(arr, size, sizeBound);
+        alg.fillArray(arr);
 
         for (int i = 0; i < 20; i++) {
             long start = System.nanoTime();
 
-            quickSort(arr, 0, arr.length - 1);
+            quickSortPartition(arr, 0, arr.length - 1);
+            alg.kthSmallest(arr, arr[0], arr.length, k11);
             // quickSortPartition(arr, 0, arr.length-1);
 
             long end = System.nanoTime();
